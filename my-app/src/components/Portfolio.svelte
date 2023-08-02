@@ -5,6 +5,11 @@
     let denomination = 'USD';
     let filter = 'all';
 
+    let audusd = 0.67;
+    let btcusd = 29516.78;
+
+        
+
     function selectCurrency(event) {
         denomination = event.target.value;
     }
@@ -140,8 +145,19 @@
                 <tr>
                     <th>Ticker</th>
                     <th>Amount</th>
-                    <th>Price</th>
-                    <th>Value</th>
+
+                    {#if denomination === 'USD'}
+                    <th>Price ($USD)</th>
+                    <th>Value ($USD)</th>
+
+                    {:else if denomination === 'AUD'}
+                    <th>Price ($AUD)</th>
+                    <th>Value ($AUD)</th>
+
+                    {:else if denomination === 'BTC'}
+                    <th>Price (₿)</th>
+                    <th>Value (₿)</th>
+                    {/if}
                 </tr>
             </thead>
             
@@ -152,8 +168,20 @@
                 <tr>
                     <td>{item.ticker}</td>
                     <td>{(item.amount)}</td>
-                    <td>{formatNumber(item.price)}</td>
-                    <td>{formatNumber(item.amount * item.price)}</td>
+
+                    {#if denomination === 'USD'}
+                    <td>${formatNumber(item.price)}</td>
+                    <td>${formatNumber(item.amount * item.price)}</td>
+
+                    {:else if denomination === 'AUD'}
+                    <td>${formatNumber(item.price / audusd)}</td>
+                    <td>${formatNumber((item.amount * item.price) / audusd)}</td>
+
+                    {:else if denomination === 'BTC'}
+                    <td>₿{formatNumber(item.price / btcusd)}</td>
+                    <td>₿{formatNumber((item.amount * item.price) / btcusd)}</td>
+                    {/if}
+
                 </tr>
                 {/each}
             </tbody>
@@ -166,8 +194,19 @@
                 <tr>
                     <td>{item.ticker}</td>
                     <td>{item.amount}</td>
-                    <td>{formatNumber(item.price)}</td>
-                    <td>{formatNumber(item.amount * item.price)}</td>
+
+                    {#if denomination === 'USD'}
+                    <td>${formatNumber(item.price)}</td>
+                    <td>${formatNumber(item.amount * item.price)}</td>
+
+                    {:else if denomination === 'AUD'}
+                    <td>${formatNumber(item.price / audusd)}</td>
+                    <td>${formatNumber((item.amount * item.price) / audusd)}</td>
+
+                    {:else if denomination === 'BTC'}
+                    <td>₿{formatNumber(item.price / btcusd)}</td>
+                    <td>₿{formatNumber((item.amount * item.price) / btcusd)}</td>
+                    {/if}
                 </tr>
                 {/each}
             </tbody>
@@ -180,8 +219,19 @@
                 <tr>
                     <td>{item.ticker}</td>
                     <td>{item.amount}</td>
-                    <td>{formatNumber(item.price)}</td>
-                    <td>{formatNumber(item.amount * item.price)}</td>
+
+                    {#if denomination === 'USD'}
+                    <td>${formatNumber(item.price)}</td>
+                    <td>${formatNumber(item.amount * item.price)}</td>
+
+                    {:else if denomination === 'AUD'}
+                    <td>${formatNumber(item.price / audusd)}</td>
+                    <td>${formatNumber((item.amount * item.price) / audusd)}</td>
+
+                    {:else if denomination === 'BTC'}
+                    <td>₿{formatNumber(item.price / btcusd)}</td>
+                    <td>₿{formatNumber((item.amount * item.price) / btcusd)}</td>
+                    {/if}
                 </tr>
                 {/each}
             </tbody>
@@ -192,7 +242,16 @@
                     <td><strong>Total</strong></td>
                     <td></td>
                     <td></td>
-                    <td><strong>{formatNumber(calculateTotalValue(filter))}</strong></td>
+                    {#if denomination === 'USD'}
+                    <td><strong>${formatNumber(calculateTotalValue(filter))}</strong></td>
+
+                    {:else if denomination === 'AUD'}
+                    <td><strong>${formatNumber(calculateTotalValue(filter)/audusd)}</strong></td>
+
+                    {:else if denomination === 'BTC'}
+                    <td><strong>₿{formatNumber(calculateTotalValue(filter)/btcusd)}</strong></td>
+                    {/if}
+
                 </tr>
             </tfoot>
             {:else if filter == 'crypto'}
@@ -201,8 +260,15 @@
                     <td><strong>Total</strong></td>
                     <td></td>
                     <td></td>
-                    <td><strong>{formatNumber(calculateTotalValue(filter))}</strong></td>
-                </tr>
+                    {#if denomination === 'USD'}
+                    <td><strong>${formatNumber(calculateTotalValue(filter))}</strong></td>
+
+                    {:else if denomination === 'AUD'}
+                    <td><strong>${formatNumber(calculateTotalValue(filter)/audusd)}</strong></td>
+
+                    {:else if denomination === 'BTC'}
+                    <td><strong>₿{formatNumber(calculateTotalValue(filter)/btcusd)}</strong></td>
+                    {/if}                </tr>
             </tfoot>
             {:else if filter == 'stocks'}
             <tfoot>
@@ -210,8 +276,15 @@
                     <td><strong>Total</strong></td>
                     <td></td>
                     <td></td>
-                    <td><strong>{formatNumber(calculateTotalValue(filter))}</strong></td>
-                </tr>
+                    {#if denomination === 'USD'}
+                    <td><strong>${formatNumber(calculateTotalValue(filter))}</strong></td>
+
+                    {:else if denomination === 'AUD'}
+                    <td><strong>${formatNumber(calculateTotalValue(filter)/audusd)}</strong></td>
+
+                    {:else if denomination === 'BTC'}
+                    <td><strong>₿{formatNumber(calculateTotalValue(filter)/btcusd)}</strong></td>
+                    {/if}                </tr>
             </tfoot>
             {:else if filter == 'cash'}
             <tfoot>
@@ -219,8 +292,15 @@
                     <td><strong>Total</strong></td>
                     <td></td>
                     <td></td>
-                    <td><strong>{formatNumber(calculateTotalValue(filter))}</strong></td>
-                </tr>
+                    {#if denomination === 'USD'}
+                    <td><strong>${formatNumber(calculateTotalValue(filter))}</strong></td>
+
+                    {:else if denomination === 'AUD'}
+                    <td><strong>${formatNumber(calculateTotalValue(filter)/audusd)}</strong></td>
+
+                    {:else if denomination === 'BTC'}
+                    <td><strong>₿{formatNumber(calculateTotalValue(filter)/btcusd)}</strong></td>
+                    {/if}                </tr>
             </tfoot>
             {/if}
         </table>
