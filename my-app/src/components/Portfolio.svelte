@@ -19,22 +19,22 @@
 
     
 
-    function calculateTotalValue() {
+    function calculateTotalValue(totalArg) {
         let totalValue = 0;
         
-        if (filter === 'crypto' || filter == 'all') {
+        if (totalArg === 'crypto' || filter == 'all') {
             data.crypto.forEach(item => {
                 totalValue += item.amount * item.price;
             });
         }
 
-        if (filter === 'stocks' || filter == 'all') {
+        if (totalArg === 'stocks' || filter == 'all') {
             data.stocks.forEach(item => {
                 totalValue += item.amount * item.price;
             });
         }
 
-        if (filter === 'cash' || filter == 'all') {
+        if (totalArg === 'cash' || filter == 'all') {
             data.cash.forEach(item => {
                 totalValue += item.amount * item.price;
             });
@@ -45,6 +45,39 @@
 </script>
 
 <style>
+
+    .container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .filter-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    h1, h2 {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        text-align: center;
+    }
+
+    select {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 16px;
+        margin: 10px;
+        padding: 5px;
+        width: fit-content;
+        border-radius: 5px;
+        background-color: #f5f5f5;
+        color: #333;
+    }
+
+    select:hover {
+        background-color: #97CAED;
+        color: #fff;
+    }
 
     table {
         border-collapse: collapse;
@@ -76,33 +109,30 @@
         background-color: #5CFFB6;
     }
 
-    /* Alternate row colors for better readability */
-    tr:nth-child(even) {
-        background-color: #f5f5f5;
-    }
-
     tr:hover {
         background-color: #A5FFD6;
     }
 
 </style>
 
-<div>
+<div class="container">
     <h1>Finances</h1>
-    <select id="currencyDropdown" on:change={selectCurrency}>
-        <option value="USD">US Dollar</option>
-        <option value="AUD">AU Dollar</option>
-        <option value="BTC">Bitcoin</option>
-    </select>
-    <select id="filterDropdown"
-            on:change={filterAssets}
-            on:change={calculateTotalValue}
-    >
-        <option value="all">All</option>
-        <option value="crypto">Crypto</option>
-        <option value="stocks">Stocks</option>
-        <option value="cash">Cash</option>
-    </select>
+    <div class="filter-container">
+        <select id="currencyDropdown" on:change={selectCurrency}>
+            <option value="USD">US Dollar</option>
+            <option value="AUD">AU Dollar</option>
+            <option value="BTC">Bitcoin</option>
+        </select>
+        <select id="filterDropdown"
+                on:change={filterAssets}
+                on:change={calculateTotalValue}
+        >
+            <option value="all">All</option>
+            <option value="crypto">Crypto</option>
+            <option value="stocks">Stocks</option>
+            <option value="cash">Cash</option>
+        </select>
+    </div>
     <div>
         <h2>Assets</h2>
         <table>
@@ -156,14 +186,43 @@
                 {/each}
             </tbody>
             {/if}
+            {#if filter == 'all'}
             <tfoot>
                 <tr>
                     <td><strong>Total</strong></td>
                     <td></td>
                     <td></td>
-                    <td><strong>{formatNumber(calculateTotalValue())}</strong></td>
+                    <td><strong>{formatNumber(calculateTotalValue(filter))}</strong></td>
                 </tr>
             </tfoot>
+            {:else if filter == 'crypto'}
+            <tfoot>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>{formatNumber(calculateTotalValue(filter))}</strong></td>
+                </tr>
+            </tfoot>
+            {:else if filter == 'stocks'}
+            <tfoot>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>{formatNumber(calculateTotalValue(filter))}</strong></td>
+                </tr>
+            </tfoot>
+            {:else if filter == 'cash'}
+            <tfoot>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>{formatNumber(calculateTotalValue(filter))}</strong></td>
+                </tr>
+            </tfoot>
+            {/if}
         </table>
     </div>
 </div>
