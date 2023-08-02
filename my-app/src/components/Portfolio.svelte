@@ -85,11 +85,6 @@
         background-color: #A5FFD6;
     }
 
-    .table-container {
-        margin: 0 auto;
-        max-width: 800px;
-    }
-
 </style>
 
 <div>
