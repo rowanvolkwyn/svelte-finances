@@ -53,9 +53,6 @@
 
 <body>
     <nav class="navbar">
-        <div class="logo">
-            <img src="RVDark.png" alt="RV Logo">
-        </div>
         <div class=links-container>
             <div class="links">
                 <a href="#">Summary</a>
